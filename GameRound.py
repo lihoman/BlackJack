@@ -1,60 +1,61 @@
-from Cards import *
+from Player import *
+import time
 
 
-class Player:
-    game_deck = Deck(52)  # to create a cards deck for playing
+class GameRound:
 
-    def __init__(self, name):
-        self.game_deck.shuffle_deck()  # to mix the deck
-        self.name = name
-        self.my_cards = self.generate_start_cards()  # 2 random cards to start the game
+    def __init__(self, player_name):
+        self.player = Player(player_name)
+        self.dealer = Player('Dealer')
+        self.player_result = 0
+        self.dealer_result = 0
 
-    def get_card(self):
-        """Func to add a random card from the deck. """
-        random_card = self.game_deck.choice_random_card()
-        self.game_deck.deck.remove(random_card)  # removing this card from playing cards deck
-        return random_card
+    def one_more_card(self, player_name, answer):
+        if player_name == self.dealer.name:
+            player_name = self.dealer
+        elif player_name == self.player.name:
+            player_name = self.player
+        player_name.plus_one_card(answer)
+        result = player_name.finish_result()
+        print(player_name.my_cards, f"{player_name.name} result: {result}".capitalize(), sep='\n')
+        return result
 
-    def generate_start_cards(self):
-        """Func to generate 2 start cards to start the game and appending this cards (class objects) in a list. """
-        my_cards = []
-        i = 0
-        while i < 2:
-            my_cards.append(self.get_card())
-            i += 1
-        return my_cards
+    def player_game(self):
+        # Player's start cards
+        self.player_result = self.player.finish_result()
+        print(self.player.my_cards, f'{self.player.name} result: {self.player_result}', sep='\n')
 
-    def plus_one_card(self, answer):
-        """Func to add one card for player, if he wants more (answer = 'YES'). """
-        if answer.upper() == 'Y':
-            self.my_cards.append(self.get_card())
+        # Player's game
+        answer = input('Do you want to take one more card? (y/n): ').upper()
 
-    def values_result(self):
-        """Func to append natural value of card, because cards is objects of class Card. """
-        list_values = []  # if player will has aces ('A'), this list will contain int numbers and tuples (1, 11)
-        for i in self.my_cards:
-            list_values.append(i.value_int())
-        return list_values
+        while answer == 'Y':
+            self.player_result = self.one_more_card(self.player.name, answer)
+            answer = input('Do you want to take one more card? (y/n): ').upper()
+        return self.player_result
 
-    def finish_result(self):
-        """Func to calculate sum of cards values and give final result"""
-        list_all_values = self.values_result()
-        finish_result = []
-        ace_values = 0  # amount of aces
-        for i in list_all_values:
-            if isinstance(i, tuple):
-                ace_values += 1  # if player has a ace, rise up common aces amount
-                continue
-            finish_result.append(i)
-        while ace_values > 0:
-            self.helper_for_result(finish_result)
-            ace_values -= 1
-        return sum(finish_result)
+    def dealer_game(self):
+        # Dealer's game
+        print("It's a dealer's time now")
+        time.sleep(1)
+        self.dealer_result = self.dealer.finish_result()
+        print(self.dealer.my_cards, f'Dealer result: {self.dealer_result}', sep='\n')
+        time.sleep(1)
+        while self.dealer_result <= 17:
+            time.sleep(1)
+            self.dealer_result = self.one_more_card(self.dealer.name, 'Y')
+        return self.dealer_result
 
-    @staticmethod
-    def helper_for_result(list_for_appending):
-        """Func to append value of ace (1 or 11) depending on sum of player's cards. """
-        if sum(list_for_appending) <= 10:
-            list_for_appending.append(11)
+    # To compare results and determination a winner
+    def compare_results(self, player_result, dealer_result):
+        if player_result > dealer_result:
+            return f'Winner: {self.player.name}'
+        elif player_result == dealer_result:
+            return "It's a draw!"
         else:
-            list_for_appending.append(1)
+            return f'Winner: {self.dealer.name}'
+
+    def find_winner(self):
+        if self.player_result <= 21 and self.dealer_result <= 21:
+            print(self.compare_results(self.player_result, self.dealer_result))
+        else:
+            print(self.compare_results(self.dealer_result, self.player_result))
