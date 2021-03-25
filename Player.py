@@ -4,10 +4,11 @@ from Cards import *
 class Player:
     game_deck = Deck(52)  # to create a cards deck for playing
 
-    def __init__(self, name):
+    def __init__(self, name, count=0):
         self.game_deck.shuffle_deck()  # to mix the deck
         self.name = name
         self.my_cards = self.generate_start_cards()  # 2 random cards to start the game
+        self.count = count
 
     def get_card(self):
         """Func to add a random card from the deck. """
@@ -58,3 +59,14 @@ class Player:
             list_for_appending.append(11)
         else:
             list_for_appending.append(1)
+
+    def get_rate(self, rate, result):
+        if rate > self.count or self.count == 0:
+            return "Sorry, you don't have so much money"
+        if result[8:] == 'Dealer':
+            self.count -= rate
+        elif result == "It's a draw!":
+            pass
+        else:
+            self.count += rate
+        return self.count

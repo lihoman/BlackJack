@@ -5,7 +5,7 @@ import time
 class GameRound:
 
     def __init__(self, player_name):
-        self.player = Player(player_name)
+        self.player = Player(player_name, 100)
         self.dealer = Player('Dealer')
         self.player_result = 0
         self.dealer_result = 0
@@ -22,6 +22,8 @@ class GameRound:
 
     def player_game(self):
         # Player's start cards
+        print(f'Your count: {self.player.count}')
+        self.player_rate = int(input("Please, make your bet: "))
         self.player_result = self.player.finish_result()
         print(self.player.my_cards, f'{self.player.name} result: {self.player_result}', sep='\n')
 
@@ -56,6 +58,12 @@ class GameRound:
 
     def find_winner(self):
         if self.player_result <= 21 and self.dealer_result <= 21:
-            print(self.compare_results(self.player_result, self.dealer_result))
+            game_result = self.compare_results(self.player_result, self.dealer_result)
+            print(game_result)
+            self.player.get_rate(self.player_rate, game_result)
+            print(f'Your count: {self.player.count}')
         else:
-            print(self.compare_results(self.dealer_result, self.player_result))
+            game_result = self.compare_results(self.dealer_result, self.player_result)
+            print(game_result)
+            self.player.get_rate(self.player_rate, game_result)
+            print(f'Your count: {self.player.count}')

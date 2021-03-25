@@ -1,6 +1,9 @@
 from GameRound import *
 
+
 start = GameRound('Nikita')
-start.player_game()
-start.dealer_game()
-start.find_winner()
+
+while start.player.count > 0:
+    start.player_game()
+    start.dealer_game()
+    start.find_winner()
