@@ -6,7 +6,7 @@ class Player:
 
     def __init__(self, name, count=0):
         self.name = name
-        self.my_cards = self.generate_start_cards()  # 2 random cards to start the game
+        self.my_cards = []  # 2 random cards to start the game
         self.count = count
 
     def get_card(self):

@@ -22,8 +22,8 @@ class GameRound:
 
     def player_game(self):
         # Player's start cards
-        self.player.game_deck.shuffle_deck()
         self.player_rate = int(input("Please, make your bet: "))
+        self.player.my_cards = self.player.generate_start_cards()
         self.player_result = self.player.finish_result()
         print(self.player.my_cards, f'{self.player.name} result: {self.player_result}', sep='\n')
 
@@ -36,9 +36,9 @@ class GameRound:
 
     def dealer_game(self):
         # Dealer's game
-        self.player.game_deck.shuffle_deck()
         print("It's a dealer's time now")
         time.sleep(1)
+        self.dealer.my_cards = self.dealer.generate_start_cards()
         self.dealer_result = self.dealer.finish_result()
         print(self.dealer.my_cards, f'Dealer result: {self.dealer_result}', sep='\n')
         time.sleep(1)
