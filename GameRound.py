@@ -22,7 +22,7 @@ class GameRound:
 
     def player_game(self):
         # Player's start cards
-        print(f'Your count: {self.player.count}')
+        self.player.game_deck.shuffle_deck()
         self.player_rate = int(input("Please, make your bet: "))
         self.player_result = self.player.finish_result()
         print(self.player.my_cards, f'{self.player.name} result: {self.player_result}', sep='\n')
@@ -33,10 +33,10 @@ class GameRound:
         while answer == 'Y':
             self.player_result = self.one_more_card(self.player.name, answer)
             answer = input('Do you want to take one more card? (y/n): ').upper()
-        return self.player_result
 
     def dealer_game(self):
         # Dealer's game
+        self.player.game_deck.shuffle_deck()
         print("It's a dealer's time now")
         time.sleep(1)
         self.dealer_result = self.dealer.finish_result()
@@ -45,7 +45,6 @@ class GameRound:
         while self.dealer_result <= 17:
             time.sleep(1)
             self.dealer_result = self.one_more_card(self.dealer.name, 'Y')
-        return self.dealer_result
 
     # To compare results and determination a winner
     def compare_results(self, player_result, dealer_result):

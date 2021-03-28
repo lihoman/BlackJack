@@ -1,9 +1,10 @@
 from GameRound import *
 
+player_name = input('Welcome in BlackJack. What is your name?: ')
+game = GameRound(player_name)
+print(game.player.count)
 
-start = GameRound('Nikita')
-
-while start.player.count > 0:
-    start.player_game()
-    start.dealer_game()
-    start.find_winner()
+while game.player.count > 0:
+    game.player_game()
+    game.dealer_game()
+    game.find_winner()
