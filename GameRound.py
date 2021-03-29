@@ -22,26 +22,33 @@ class GameRound:
 
     def player_game(self):
         # Player's start cards
-        self.player_rate = int(input("Please, make your bet: "))
+        self.player_rate = int(info_from_json(client_sock.recv(1024)))
         self.player.my_cards = self.player.generate_start_cards()
         self.player_result = self.player.finish_result()
-        print(self.player.my_cards, f'{self.player.name} result: {self.player_result}', sep='\n')
+        card_1 = (self.player.my_cards[0].suit, self.player.my_cards[0].value)
+        card_2 = (self.player.my_cards[1].suit, self.player.my_cards[1].value)
+        client_sock.send(info_in_json(card_1, card_2, self.player_result))
 
         # Player's game
-        answer = input('Do you want to take one more card? (y/n): ').upper()
+        answer = info_from_json(client_sock.recv(1024))
 
         while answer == 'Y':
             self.player_result = self.one_more_card(self.player.name, answer)
-            answer = input('Do you want to take one more card? (y/n): ').upper()
+            new_card = (self.player.my_cards[-1][0], self.player.my_cards[-1][1])
+            client_sock.send(info_in_json(new_card, self.player_result))
+            answer = info_from_json(client_sock.recv(1024))
 
     def dealer_game(self):
         # Dealer's game
-        print("It's a dealer's time now")
-        time.sleep(1)
+        # print("It's a dealer's time now")
+        # time.sleep(1)
         self.dealer.my_cards = self.dealer.generate_start_cards()
         self.dealer_result = self.dealer.finish_result()
-        print(self.dealer.my_cards, f'Dealer result: {self.dealer_result}', sep='\n')
-        time.sleep(1)
+        card_1 = (self.dealer.my_cards[0].suit, self.dealer.my_cards[0].value)
+        card_2 = (self.dealer.my_cards[1].suit, self.dealer.my_cards[1].value)
+        client_sock.send(info_in_json(card_1, card_2, self.dealer_result))
+        # print(self.dealer.my_cards, f'Dealer result: {self.dealer_result}', sep='\n')
+        # time.sleep(1)
         while self.dealer_result <= 17:
             time.sleep(1)
             self.dealer_result = self.one_more_card(self.dealer.name, 'Y')
