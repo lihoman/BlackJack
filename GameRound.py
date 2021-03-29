@@ -17,7 +17,7 @@ class GameRound:
             player_name = self.player
         player_name.plus_one_card(answer)
         result = player_name.finish_result()
-        print(player_name.my_cards, f"{player_name.name} result: {result}".capitalize(), sep='\n')
+        # print(player_name.my_cards, f"{player_name.name} result: {result}".capitalize(), sep='\n')
         return result
 
     def player_game(self):
