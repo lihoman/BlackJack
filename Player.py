@@ -60,13 +60,13 @@ class Player:
             list_for_appending.append(1)
 
     def get_rate(self, rate, result):
-        if rate > self.count:
+        if int(rate) > self.count:
             return "Sorry, you don't have so much money"
         else:
             if result[8:] == 'Dealer':
-                self.count -= rate
+                self.count -= int(rate)
             elif result == "It's a draw!":
                 pass
             else:
-                self.count += rate
+                self.count += int(rate)
             return self.count

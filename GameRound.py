@@ -58,11 +58,11 @@ class GameRound:
     def find_winner(self):
         if self.player_result <= 21 and self.dealer_result <= 21:
             game_result = self.compare_results(self.player_result, self.dealer_result)
-            print(game_result)
+            # print(game_result)
             self.player.get_rate(self.player_rate, game_result)
-            print(f'Your count: {self.player.count}')
+            # print(f'Your count: {self.player.count}')
         else:
             game_result = self.compare_results(self.dealer_result, self.player_result)
-            print(game_result)
+            # print(game_result)
             self.player.get_rate(self.player_rate, game_result)
-            print(f'Your count: {self.player.count}')
+            # print(f'Your count: {self.player.count}')
