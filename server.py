@@ -48,6 +48,8 @@ while True:
         new_card_suit = game.player.my_cards[-1].suit
         new_card_value = game.player.my_cards[-1].value
         client_sock.send(info_in_json(new_card_suit, new_card_value, game.player_result))
+        if answer != 'Y':
+            pass  # start dealer's game
 
 
 # client_sock.close()

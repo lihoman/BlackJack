@@ -26,7 +26,7 @@ class Player:
 
     def plus_one_card(self, answer):
         """Func to add one card for player, if he wants more (answer = 'YES'). """
-        if answer.upper() == 'Y':
+        if answer == 'Y':
             self.my_cards.append(self.get_card())
 
     def values_result(self):

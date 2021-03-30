@@ -37,5 +37,6 @@ while True:
         player_cards.append(Card(data[0], data[1]))
         player_result = data[2]
         print(player_cards, f'{player_name} result: {player_result}', sep='\n')
+        answer = input('Do you want to take one more card? (y/n): ').upper()
 
 # sock_client.close()
