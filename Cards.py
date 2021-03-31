@@ -27,7 +27,7 @@ class Card:
             return self.value
 
     def __repr__(self):
-        """Overload standard method in order to view more beautiful interface for user"""
+        """Overload standard method in order to view more beautiful interface for user. """
         if self.value in self.cards_values:
             return f'{self.value}{self.cards_suits[self.suit]}'
         else:
@@ -35,7 +35,7 @@ class Card:
 
 
 class Deck:
-    """Class to create card deck depending on what user selects (36 or 52 cards in deck)"""
+    """Class to create card deck depending on what user selects (36 or 52 cards in deck). """
 
     def __init__(self, length_of_deck):
         self.length_of_deck = length_of_deck
